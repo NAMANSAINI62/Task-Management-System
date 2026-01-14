@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container dashboard-container">
+        <div class="nav">
+            <h2>Welcome, <span id="user-display">User</span>!</h2>
+            <button class="btn-small btn-danger" id="logout-btn">Logout</button>
+        </div>
+
+        <div id="dashboard-message" class="message"></div>
+
+        <!-- Create Task Section -->
+        <div class="card" style="margin-bottom: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 1rem;">
+            <h3>Create New Task</h3>
+            <div class="form-group">
+                <input type="text" id="task-title" placeholder="Task Title">
+            </div>
+            <div class="form-group">
+                <textarea id="task-desc" placeholder="Task Description"></textarea>
+            </div>
+            <button id="add-task-btn">Add Task</button>
+        </div>
+
+        <!-- Task List Section -->
+        <h3>Your Tasks <span id="admin-badge"
+                style="display:none; background: #4f46e5; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">Admin
+                View</span></h3>
+        <ul id="task-list-items" class="task-list">
+            <!-- Tasks will be injected here -->
+        </ul>
+    </div>
+
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Task</h3>
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="edit-title">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="edit-desc"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button id="save-edit-btn">Save Changes</button>
+                <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
