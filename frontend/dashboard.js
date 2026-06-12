@@ -36,16 +36,26 @@ async function fetchTasks() {
             li.className = 'task-item';
             li.innerHTML = `
                 <div class="task-info">
-                    <strong>${task.title}</strong> [${task.status}]<br>
-                    <small>${task.description || 'No description'}</small><br>
-                    <small style="color: grey">Owner: ${task.owner}</small>
+                    <strong class="task-title"></strong> <span class="task-status"></span><br>
+                    <small class="task-desc"></small><br>
+                    <small class="task-owner"></small>
                 </div>
                 <div class="task-actions">
-                    <button class="btn-small" onclick="toggleStatus(${task.id}, '${task.status}')">Check</button>
-                    <button class="btn-small" style="background-color: #f59e0b" onclick="openEditModal(${task.id}, '${task.title}', '${task.description}')">Edit</button>
-                    <button class="btn-small btn-danger" onclick="deleteTask(${task.id})">Delete</button>
+                    <button class="btn-small btn-status">Check</button>
+                    <button class="btn-small btn-edit">Edit</button>
+                    <button class="btn-small btn-danger btn-delete">Delete</button>
                 </div>
             `;
+            
+            li.querySelector('.task-title').textContent = task.title;
+            li.querySelector('.task-status').textContent = `[${task.status}]`;
+            li.querySelector('.task-desc').textContent = task.description || 'No description';
+            li.querySelector('.task-owner').textContent = `Owner: ${task.owner}`;
+            
+            li.querySelector('.btn-status').onclick = () => toggleStatus(task.id, task.status);
+            li.querySelector('.btn-edit').onclick = () => openEditModal(task.id, task.title, task.description);
+            li.querySelector('.btn-delete').onclick = () => deleteTask(task.id);
+
             taskList.appendChild(li);
         });
     } catch (err) {

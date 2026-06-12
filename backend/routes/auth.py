@@ -8,17 +8,19 @@ auth_bp = Blueprint('auth', __name__)
 def register():
     data = request.get_json()
     
-    # Simple validation
     if not data or not data.get('username') or not data.get('password') or not data.get('email'):
         return jsonify({"message": "Missing required fields"}), 400
     
     if User.query.filter_by(username=data['username']).first():
         return jsonify({"message": "Username already exists"}), 409
 
+    if User.query.filter_by(email=data['email']).first():
+        return jsonify({"message": "Email already exists"}), 409
+
     new_user = User(
         username=data['username'],
         email=data['email'],
-        role=data.get('role', 'user') # Default to user
+        role=data.get('role', 'user')
     )
     new_user.set_password(data['password'])
     

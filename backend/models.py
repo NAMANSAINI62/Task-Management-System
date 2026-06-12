@@ -14,6 +14,11 @@ class User(db.Model):
 
     tasks = db.relationship('Task', backref='owner', lazy=True)
 
+    def __init__(self, username, email, role='user'):
+        self.username = username
+        self.email = email
+        self.role = role
+
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('UTF-8')
 
@@ -27,3 +32,9 @@ class Task(db.Model):
     description = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(20), default='pending')  # 'pending' or 'completed'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __init__(self, title, description='', user_id=None, status='pending'):
+        self.title = title
+        self.description = description
+        self.user_id = user_id
+        self.status = status

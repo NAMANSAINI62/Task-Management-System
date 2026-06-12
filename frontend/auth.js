@@ -40,12 +40,19 @@ registerForm.onsubmit = async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password, role })
         });
-        const data = await response.json();
+        
+        let data;
+        try {
+            data = await response.json();
+        } catch (e) {
+            data = { message: "An unexpected server error occurred." };
+        }
+
         if (response.ok) {
             showMessage("Registration successful! Please login.", "success");
             registerForm.reset();
         } else {
-            showMessage(data.message, "error");
+            showMessage(data.message || "Registration failed", "error");
         }
     } catch (err) {
         showMessage("Server connection failed", "error");
@@ -64,7 +71,14 @@ loginForm.onsubmit = async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         });
-        const data = await response.json();
+        
+        let data;
+        try {
+            data = await response.json();
+        } catch (e) {
+            data = { message: "An unexpected server error occurred." };
+        }
+
         if (response.ok) {
             // Save token and info
             localStorage.setItem('token', data.access_token);
@@ -72,7 +86,7 @@ loginForm.onsubmit = async (e) => {
             localStorage.setItem('username', data.username);
             window.location.href = 'dashboard.html';
         } else {
-            showMessage(data.message, "error");
+            showMessage(data.message || "Login failed", "error");
         }
     } catch (err) {
         showMessage("Server connection failed", "error");
